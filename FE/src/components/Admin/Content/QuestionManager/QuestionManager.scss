@@ -1,0 +1,120 @@
+.question-container {
+  padding: 15px;
+  .add-new-question {
+    .select-quiz {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .question-content {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      .description {
+        width: 50%;
+      }
+      .group-upload {
+        display: flex;
+        gap: 10px;
+        .icon-rview2 {
+          font-size: 30px;
+          color: #f65959;
+        }
+        .icon-rview1 {
+          font-size: 30px;
+          color: #ff0000;
+          transition: transform 0.3s ease-in-out;
+          cursor: pointer;
+          &:hover {
+            color: #4400ff;
+            transform: scale(1.5);
+            transform-origin: center;
+          }
+        }
+        .icon-add-image {
+          font-size: 30px;
+          color: #9068ff;
+          transition: transform 0.3s ease-in-out;
+          cursor: pointer;
+          &:hover {
+            color: #4400ff;
+            transform: scale(1.5);
+            transform-origin: center;
+          }
+        }
+        .preview-img {
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+        }
+      }
+      .btn-add {
+        .add-icon {
+          font-size: 40px;
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+          &:hover {
+            transform: scale(1.5);
+            transform-origin: center;
+          }
+        }
+        .delete-icon {
+          margin-left: 20px;
+          font-size: 40px;
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+          &:hover {
+            transform: scale(1.5);
+            transform-origin: center;
+          }
+        }
+      }
+    }
+    .answers-content {
+      display: flex;
+      gap: 10px;
+      padding-left: 100px;
+      padding-top: 20px;
+      align-items: center;
+      .check-answer {
+        border: 1px solid #9068ff;
+        font-size: 20px;
+        margin-bottom: 5px;
+        transition: transform 0.3s ease-in-out;
+        &:hover {
+          color: #4400ff;
+          transform: scale(1.5);
+          transform-origin: center;
+        }
+      }
+      .answer-text {
+        width: 50%;
+      }
+      .btn-answer {
+        .add-answer {
+          margin-left: 20px;
+          font-size: 25px;
+          color: #9068ff;
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+          &:hover {
+            color: #4400ff;
+            transform: scale(1.5);
+            transform-origin: center;
+          }
+        }
+        .delete-answer {
+          margin-left: 20px;
+          font-size: 25px;
+          color: rgb(236, 93, 93);
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+          &:hover {
+            color: red;
+            transform: scale(1.5);
+            transform-origin: center;
+          }
+        }
+      }
+    }
+  }
+}

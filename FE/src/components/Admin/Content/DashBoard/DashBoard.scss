@@ -1,0 +1,49 @@
+.dashboard-container {
+  padding: 15px;
+  display: flex;
+  gap: 20px;
+  .left-content {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    .chart-content {
+      width: calc(50% - 10px);
+      height: 200px;
+      border: 1px solid rosybrown;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .title1 {
+        font-size: 30px;
+        font-weight: 500;
+      }
+      .total-user {
+        font-size: 50px;
+        font-weight: 600;
+        color: #8884d8;
+      }
+      .total-quizs {
+        font-size: 50px;
+        font-weight: 600;
+        color: #82ca9d;
+      }
+      .total-questions {
+        font-size: 50px;
+        font-weight: 600;
+        color: #ed3434;
+      }
+      .total-answers {
+        font-size: 50px;
+        font-weight: 600;
+        color: #fcb12a;
+      }
+    }
+  }
+  .right-content {
+    width: 50%;
+    height: 500px;
+  }
+}

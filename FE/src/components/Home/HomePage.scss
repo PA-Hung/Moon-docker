@@ -1,0 +1,40 @@
+.homepage-container {
+  .header {
+    .navbar {
+      z-index: 10;
+      background-color: rgba(0, 0, 0, 0) !important;
+      .nav-link {
+        &.active {
+          color: #00bfff;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .homepage-content {
+    position: relative;
+    margin-top: 100px;
+    padding: 100px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .title-1 {
+    font-size: 64px;
+  }
+  .title-2 {
+    font-size: 24px;
+  }
+  .btn-started {
+    color: white;
+    background: #303030;
+    height: 50px;
+    border-radius: 5px;
+    padding: 0 25px;
+    border: none;
+    &:hover {
+      background: black;
+    }
+  }
+}

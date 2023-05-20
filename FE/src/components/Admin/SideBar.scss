@@ -1,0 +1,22 @@
+.sidebar-container {
+  display: flex;
+  height: 100vh;
+  .title-sidebar {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    align-items: center; /* Thêm thuộc tính này để căn giữa theo trục dọc Y */
+    justify-content: center; /* Thêm thuộc tính này để căn giữa theo trục ngang X */
+    width: 100%; /* Xác định chiều rộng của div "title-sidebar" */
+    .title {
+      //   padding-left: 20px;
+      margin-top: 12px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+  .title-menu {
+    font-size: 18px;
+    font-weight: 450;
+  }
+}

@@ -1,0 +1,13 @@
+.assign-quiz-container {
+  padding: 15px;
+  .select-quiz {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .select-user {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}

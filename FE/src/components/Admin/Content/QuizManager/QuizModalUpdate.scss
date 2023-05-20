@@ -1,0 +1,59 @@
+.modal-update-quiz {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  .top-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    .content-1 {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .content-2 {
+      display: flex;
+      flex-direction: row;
+      //border: 1px solid red;
+      justify-content: center;
+      align-items: center;
+      gap: 26px;
+
+      .img-input {
+        margin-top: 23px;
+        .label-upload {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          border: 1px solid red;
+          border-radius: 5px;
+          background: #1677ff;
+          border: none;
+          cursor: pointer;
+          width: fit-content;
+          padding: 8px 10px;
+          color: white;
+          &:hover {
+            background: #4096ff;
+          }
+        }
+      }
+    }
+  }
+  .bottom-content {
+    .img-review {
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      border: 3px dashed #ccc;
+      justify-content: center;
+      align-items: center;
+      color: #ccc;
+      border-radius: 5px;
+      .image {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+}
