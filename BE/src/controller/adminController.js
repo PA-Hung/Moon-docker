@@ -120,7 +120,6 @@ const handleDeleteUserController = async (req, res) => {
 }
 
 const handleGetDashboarController = async (req, res) => {
-    //console.log('>>>>>> 2 >>>>>>', req.user);
     try {
         let data = await adminService.getDashBoardService();
         return res.status(200).json({

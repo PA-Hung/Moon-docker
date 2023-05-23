@@ -35,7 +35,5 @@ services:
       - DB_PORT=3306
       - DB_PASSWORD=R^+XIjeTYR$9BHE
       - DB_NAME=MoonDemo
-    ports:
-      - 8000:8000
     expose:
       - 8000

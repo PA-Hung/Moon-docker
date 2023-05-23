@@ -26,15 +26,15 @@ const putUpdateUser = (id, email, password, username, role, userImage) => {
     data.append('username', username);
     data.append('role', role);
     data.append('userImage', userImage);
-    return instanceFromAxios.put('api/v1/participant', data)
+    return instanceFromAxios.put(`api/v1/participant`, data)
 }
 
 const deleteUser = (userId) => {
-    return instanceFromAxios.delete('api/v1/participant', { data: { id: userId } })
+    return instanceFromAxios.delete(`api/v1/participant`, { data: { id: userId } })
 }
 
 const postAssignQuiz = (quizId, userId) => {
-    return instanceFromAxios.post('api/v1/quiz-assign-to-user', { quizId, userId })
+    return instanceFromAxios.post(`api/v1/quiz-assign-to-user`, { quizId, userId })
 }
 
 const getDataOverView = () => {
