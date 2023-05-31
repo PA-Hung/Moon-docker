@@ -1,24 +1,17 @@
 import './ModalUserProfile.scss'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Modal } from 'antd';
 import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
-import { Buffer } from 'buffer';
-import { getUserProfile, putUserProfile } from '../../services/userApiService';
-import { useSelector } from 'react-redux';
+import { putUserProfile } from '../../services/userApiService';
 
 const ModalUserProfile = (props) => {
-    const { showModalUserProfile, setShowModalUserProfile } = props
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+    const { showModalUserProfile, setShowModalUserProfile, email, setEmail,
+        username, setUsername, image, setImage, reviewImg, setReviewImg } = props
 
-    const [email, setEmail] = useState('')
-    const [username, setUsername] = useState('')
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmNPassword, setConfirmNPassword] = useState('')
-    // eslint-disable-next-line
-    const [image, setImage] = useState('')
-    const [reviewImg, setReviewImg] = useState('')
 
     const defaultValidInput = {
         isValidEmail: true,
@@ -76,33 +69,6 @@ const ModalUserProfile = (props) => {
         }
         return true
     }
-
-    const fetchUserProfile = async () => {
-        let res = await getUserProfile()
-        if (res && res.EC === 0) {
-            setEmail(res.DT.email)
-            setUsername(res.DT.username)
-            if (res.DT.image) {
-                // convert your Buffer to base64 string
-                let image = res.DT.image.data
-                let base64String = Buffer.from(image).toString('base64');
-                setImage(res.DT.image)
-                setReviewImg(`data:image/jpeg;base64,${base64String}`)
-            } else {
-                setReviewImg('')
-            }
-        }
-        // else {
-        //     toast.error(res.EM)
-        // }
-    }
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchUserProfile()
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     const handleCancel = () => {
         setShowModalUserProfile(false);

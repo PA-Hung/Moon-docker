@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
-import { useParams, useLocation, NavLink } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { getQuizQuestion } from '../../services/quizApiService'
 import './DetailQuiz.scss'
 import Question from './Question'
 import { useState } from 'react'
 import _ from 'lodash'
 import CountDown from './CountDown/CountDown'
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { postSubmitQuiz } from '../../services/userApiService'
 import { toast } from 'react-toastify'
 import ModalQuizResult from './ModalQuizResult'
+import HomeNavbar from '../Home/HomeComponents/HomeNavbar'
 
 const DetailQuiz = (props) => {
     const params = useParams()
@@ -109,15 +109,7 @@ const DetailQuiz = (props) => {
 
     return (
         <>
-            <Breadcrumb className='quiz-detail-header'>
-                <NavLink to='/' className='breadcrumb-item'>
-                    Home
-                </NavLink>
-                <NavLink to='/user' className='breadcrumb-item'>
-                    My quizs
-                </NavLink>
-                <Breadcrumb.Item active>Doing quiz</Breadcrumb.Item>
-            </Breadcrumb>
+            <HomeNavbar />
             <div className='detail-quiz-container'>
                 <div className='left-content'>
                     <div className='title'>Quiz {quizId} : {location?.state?.quizTitle}</div>

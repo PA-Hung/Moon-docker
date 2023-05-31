@@ -1,34 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Modal } from 'antd';
-import { getUserHistory } from '../../services/userApiService';
-//import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
 
 const ModalHistory = (props) => {
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
-    const { showModalHistory, setShowModalHistory } = props
-    const [userHistory, setUserHistory] = useState([])
+    const { showModalHistory, setShowModalHistory, userHistory } = props
     const handleCancel = () => {
         setShowModalHistory(false);
     };
-
-    const fetchUserHistory = async () => {
-        let res = await getUserHistory()
-        if (res && res.EC === 0) {
-            setUserHistory(res.DT)
-        }
-        // else {
-        //     toast.error(res.EM)
-        // }
-    }
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchUserHistory()
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     return (
         <div>

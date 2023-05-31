@@ -3,6 +3,7 @@ import { getQuizByUser } from '../../services/quizApiService'
 import { Buffer } from 'buffer';
 import './ListQuiz.scss'
 import { useNavigate } from 'react-router-dom';
+import HomeNavbar from '../Home/HomeComponents/HomeNavbar';
 
 const ListQuiz = () => {
     const navigate = useNavigate()
@@ -20,6 +21,7 @@ const ListQuiz = () => {
 
     return (
         <>
+            <HomeNavbar />
             <div className='list-quiz-container container'>
                 {arrQuiz && arrQuiz.length > 0 && arrQuiz.map((quiz, index) => {
                     const base64String = Buffer.from(quiz.image).toString('base64');
