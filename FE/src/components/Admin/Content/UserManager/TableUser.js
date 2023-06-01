@@ -1,10 +1,9 @@
 import React from 'react'
-import { EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
+import { FormOutlined, DeleteOutlined, FileDoneOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
 
-
 export const TableUser = (props) => {
-    const { listUser, handleUpdateUser, handleDeleteUser,
+    const { listUser, handleUpdateUser, handleDeleteUser, handleUserHistoryByID,
         setCurrentPage, totalPages, currentPage, currentLitmit } = props
 
     const handlePageClick = (page) => {
@@ -33,15 +32,24 @@ export const TableUser = (props) => {
                                 <td>{item.role}</td>
                                 <td>
                                     <div className='d-flex'>
-                                        <div><EditTwoTone
-                                            style={{ fontSize: '24px', marginRight: '5px' }}
-                                            onClick={() => handleUpdateUser(item)} /></div>
-                                        <div><DeleteTwoTone
-                                            style={{ fontSize: '24px', marginLeft: '5px' }}
-                                            onClick={() => handleDeleteUser({
-                                                id: item.id,
-                                                username: item.username
-                                            })} /></div>
+                                        <div >
+                                            <FormOutlined
+                                                style={{ fontSize: '24px', color: 'black' }}
+                                                onClick={() => handleUpdateUser(item)} />
+                                        </div>
+                                        <div>
+                                            <DeleteOutlined
+                                                style={{ fontSize: '26px', marginLeft: '15px', color: 'red' }}
+                                                onClick={() => handleDeleteUser({
+                                                    id: item.id,
+                                                    username: item.username
+                                                })} />
+                                        </div>
+                                        <div>
+                                            <FileDoneOutlined
+                                                onClick={() => handleUserHistoryByID(item.id)}
+                                                style={{ fontSize: '24px', marginLeft: '15px', color: 'blue' }} />
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

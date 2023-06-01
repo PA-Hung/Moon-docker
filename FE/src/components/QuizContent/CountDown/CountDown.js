@@ -1,18 +1,21 @@
 import React, { useRef } from 'react'
+// eslint-disable-next-line
 import Timer from './Timer'
 import { toast } from 'react-toastify'
 
 
 const CountDown = (props) => {
+    // eslint-disable-next-line
     const { dataQuiz, handleFinish, setCurrentQuiz, isRunning, setIsRunning } = props
 
     const refDiv = useRef([])
-
+    // eslint-disable-next-line
     const onTimesUp = () => {
         toast.success('You have run out of time !')
         handleFinish()
         setIsRunning(false)
     }
+
     const getClassQuestion = (question) => {
         if (question && question.QuizAnswers && question.QuizAnswers.length > 0) {
             let isAnswered = question.QuizAnswers.find(a => a.isSelected === true)
@@ -44,10 +47,11 @@ const CountDown = (props) => {
     return (
         <>
             <div className='timer'>
-                <Timer
+                {/* <Timer
                     isRunning={isRunning}
                     setIsRunning={setIsRunning}
-                    onTimesUp={onTimesUp} />
+                    onTimesUp={onTimesUp} /> */}
+                <label>Question list :</label>
             </div>
             <div className='questions'>
                 {dataQuiz && dataQuiz.length > 0 && dataQuiz.map((item, index) => {

@@ -1,4 +1,5 @@
 import adminService from '../service/adminService'
+import userService from '../service/userService'
 
 const handleCreateNewUserController = async (req, res) => {
     try {
@@ -103,6 +104,7 @@ const handleUpdateUserController = async (req, res) => {
 const handleDeleteUserController = async (req, res) => {
     try {
         let id = req.body.id;
+        console.log('req.body.id', id);
         let data = await adminService.deleteUserService(id);
         return res.status(200).json({
             EM: data.EM, // Error Message
@@ -137,10 +139,30 @@ const handleGetDashboarController = async (req, res) => {
     }
 }
 
+const handleGetHistoryByIdController = async (req, res) => {
+    try {
+        let id = req.query.userID
+        let data = await userService.getHistoryService(id);
+        return res.status(200).json({
+            EM: data.EM, // Error Message
+            EC: data.EC, // Error Code
+            DT: data.DT, // Data
+        })
+    } catch (error) {
+        console.log('>>>>> error from handleGetHistoryController :', error)
+        return res.status(500).json({
+            EM: data.EM, // Error Message
+            EC: data.EC, // Error Code
+            DT: data.DT, // Data
+        })
+    }
+}
+
 module.exports = {
     handleCreateNewUserController,
     handleGetUserController,
     handleUpdateUserController,
     handleDeleteUserController,
-    handleGetDashboarController
+    handleGetDashboarController,
+    handleGetHistoryByIdController
 }

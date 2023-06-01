@@ -182,20 +182,19 @@ const QuestionManager = () => {
         }
 
         // validate select image
-        let isValidImage = true
-        let indexImage = 0
-        for (let i = 0; i < questions.length; i++) {
-            if (!questions[i].imgName) {
-                isValidImage = false
-                indexImage = i
-                break
-            }
-        }
-        if (isValidImage === false) {
-            toast.error(`Not empty image question ${indexImage + 1}`)
-            return
-        }
-
+        // let isValidImage = true
+        // let indexImage = 0
+        // for (let i = 0; i < questions.length; i++) {
+        //     if (!questions[i].imgName) {
+        //         isValidImage = false
+        //         indexImage = i
+        //         break
+        //     }
+        // }
+        // if (isValidImage === false) {
+        //     toast.error(`Not empty image question ${indexImage + 1}`)
+        //     return
+        // }
 
         // tạo câu hỏi
         for (const question of questions) {

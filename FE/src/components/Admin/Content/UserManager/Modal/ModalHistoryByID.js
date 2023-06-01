@@ -2,17 +2,18 @@ import React from 'react'
 import { Modal } from 'antd';
 import dayjs from 'dayjs';
 
-const ModalHistory = (props) => {
-    const { showModalHistory, setShowModalHistory, userHistory } = props
+const ModalHistoryByID = (props) => {
+    const { showModalHistoryByID, setShowModalHistoryByID, userHistoryByID, setUserHistoryByID } = props
     const handleCancel = () => {
-        setShowModalHistory(false);
+        setShowModalHistoryByID(false);
+        setUserHistoryByID([])
     };
 
     return (
         <div>
             <Modal
                 title='HISTORY QUIZS'
-                open={showModalHistory}
+                open={showModalHistoryByID}
                 onCancel={handleCancel}
                 width={780}
                 bodyStyle={{ maxHeight: "400px", overflow: "auto" }}
@@ -20,10 +21,12 @@ const ModalHistory = (props) => {
                 cancelText="Close"
             >
                 <form>
-                    <div className="history-form">
+                    <div className="history-form-byID">
                         <table className="table table-bordered">
-                            <thead class="table-info" style={{ display: "table-header-group", position: "sticky", top: "0" }}>
-                                <tr>
+                            <thead class="table-info"
+                                style={{ display: "table-header-group", position: "sticky", top: "0" }}
+                            >
+                                <tr >
                                     <th scope="col">ID</th>
                                     <th scope="col">Quiz Name</th>
                                     <th scope="col">Total Question</th>
@@ -32,11 +35,11 @@ const ModalHistory = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {userHistory && userHistory.length > 0
-                                    && userHistory.map((itemQ, indexQ) => {
+                                {userHistoryByID && userHistoryByID.length > 0
+                                    && userHistoryByID.map((itemQ, indexQ) => {
                                         return itemQ.Historys.map((itemH, indexH) => {
                                             return (
-                                                <tr key={`table-history-key-${indexH}`}>
+                                                <tr key={`table-history-key-byID-${indexH}`}>
                                                     <td>{itemQ.id}</td>
                                                     <td>{itemQ.name}</td>
                                                     <td>{itemH.total_questions}</td>
@@ -49,7 +52,7 @@ const ModalHistory = (props) => {
                                         })
                                     })}
 
-                                {userHistory && userHistory.length === 0 &&
+                                {userHistoryByID && userHistoryByID.length === 0 &&
                                     <tr>
                                         <td colSpan="5">History not found !</td>
                                     </tr>
@@ -63,4 +66,4 @@ const ModalHistory = (props) => {
     )
 }
 
-export default ModalHistory
+export default ModalHistoryByID

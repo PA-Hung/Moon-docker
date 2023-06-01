@@ -41,6 +41,10 @@ const getDataOverView = () => {
     return instanceFromAxios.get(`api/v1/dashboard`)
 }
 
+const getUserHistoryByID = (userId) => {
+    return instanceFromAxios.get(`api/v1/history-byID?userID=${userId}`)
+}
+
 export {
     postCreateNewUser,
     getAllUser,
@@ -48,5 +52,6 @@ export {
     deleteUser,
     getAllUserWithPagin,
     postAssignQuiz,
-    getDataOverView
+    getDataOverView,
+    getUserHistoryByID
 }

@@ -8,6 +8,8 @@ import { getAllUserWithPagin } from '../../../../services/adminApiService'
 import { ModalUpdateUser } from './Modal/ModalUpdateUser';
 import ModalDeleteUser from './Modal/ModalDeleteUser';
 import { UserAddOutlined } from '@ant-design/icons';
+import { getUserHistoryByID } from '../../../../services/adminApiService';
+import ModalHistoryByID from './Modal/ModalHistoryByID';
 
 const ManageUser = (props) => {
     const [showModalAddUser, setShowModalAddUser] = useState(false);
@@ -16,6 +18,9 @@ const ManageUser = (props) => {
     const [listUser, setListUser] = useState([])
     const [userInfoUpdate, setUserInfoUpdate] = useState([])
     const [UserDelete, setUserDelete] = useState({})
+
+    const [showModalHistoryByID, setShowModalHistoryByID] = useState(false);
+    const [userHistoryByID, setUserHistoryByID] = useState([])
 
     // Pagination User ------------------------------
     // eslint-disable-next-line
@@ -53,6 +58,17 @@ const ManageUser = (props) => {
         //console.log('>>>', data)
     }
 
+    const handleUserHistoryByID = (id) => {
+        fetchUserHistoryByID(id)
+        setShowModalHistoryByID(true)
+    }
+    const fetchUserHistoryByID = async (id) => {
+        let res = await getUserHistoryByID(id)
+        if (res && res.EC === 0) {
+            setUserHistoryByID(res.DT)
+        }
+    }
+
     return (
         <div>
             <div>
@@ -70,6 +86,7 @@ const ManageUser = (props) => {
                     showModalUpdateUser={showModalUpdateUser}
                     handleUpdateUser={handleUpdateUser}
                     handleDeleteUser={handleDeleteUser}
+                    handleUserHistoryByID={handleUserHistoryByID}
                     setCurrentPage={setCurrentPage}
                     totalPages={totalPages}
                     currentPage={currentPage}
@@ -92,6 +109,12 @@ const ManageUser = (props) => {
                 setShowModalDeleteUser={setShowModalDeleteUser}
                 UserDelete={UserDelete}
                 fetchListUser={fetchListUser}
+            />
+            <ModalHistoryByID
+                showModalHistoryByID={showModalHistoryByID}
+                setShowModalHistoryByID={setShowModalHistoryByID}
+                userHistoryByID={userHistoryByID}
+                setUserHistoryByID={setUserHistoryByID}
             />
         </div>
     )

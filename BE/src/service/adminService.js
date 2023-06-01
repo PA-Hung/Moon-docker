@@ -141,6 +141,15 @@ const deleteUserService = async (userID) => {
         await db.Participants.destroy({
             where: { id: userID }
         });
+        let check = await db.Historys.findAll({
+            where: { participant_id: userID }
+        })
+        if (check) {
+            await db.Historys.destroy({
+                where: { participant_id: userID }
+            })
+        }
+
         return {
             EM: 'Delete User success !',
             EC: 0,

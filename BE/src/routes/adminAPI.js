@@ -10,6 +10,7 @@ const initAdminRoutes = (app) => {
     router.post("/participant", adminController.handleCreateNewUserController);
     router.put("/participant", adminController.handleUpdateUserController);
     router.delete("/participant", adminController.handleDeleteUserController);
+    router.get("/history-ByID", adminController.handleGetHistoryByIdController);
 
     // dashboard by admin
     router.get("/dashboard", adminController.handleGetDashboarController);

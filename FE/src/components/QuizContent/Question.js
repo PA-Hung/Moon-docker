@@ -28,7 +28,7 @@ const Question = (props) => {
                         onClose={() => setIsPreviewImg(false)}
                     />}
                 </div> :
-                <div className='image-question'></div>
+                <div ></div>
             }
             <div className='question'>Question {currentQuiz + 1} : {data.description}</div>
             <div className='answer'>
