@@ -18,6 +18,7 @@ const QAUpdate = () => {
             description: '',
             image: '',
             imgName: '',
+            audioUrl: '',
             QuizAnswers: [
                 {
                     id: uuidv4(),
@@ -62,6 +63,7 @@ const QAUpdate = () => {
                     rawData.imgName = `question-${rawData.id}.png`
                     rawData.image = await urltoFile(`data:image/png;base64,${rawData.image}`, `question-${rawData.id}.png`, 'image/png')
                 }
+                //console.log('>>>>> audioUrl fetchQuizWithQA: ', rawData.audioUrl);
                 newQA.push(rawData)
             }
             setQuestions(newQA)
@@ -74,6 +76,12 @@ const QAUpdate = () => {
         reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
     });
+
+    const [isPreviewImg, setIsPreviewImg] = useState(false)
+    const [dataImgPreview, setDataImgPreview] = useState({
+        title: '',
+        url: ''
+    })
 
     const handlePreviewImg = (questionId) => {
         console.log('questionId', questionId);
@@ -89,12 +97,37 @@ const QAUpdate = () => {
         }
     }
 
+    const readAudioFile = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                resolve(event.target.result);
+            };
+
+            reader.onerror = (event) => {
+                reject(event.target.error);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
+
     const handleChangeFileImg = async (questionId, event) => {
         let questionClone = _.cloneDeep(questions)
         let index = questionClone.findIndex(item => item.id === questionId)
         if (index > -1 && event.target && event.target.files && event.target.files[0]) {
-            questionClone[index].image = event.target.files[0]
-            questionClone[index].imgName = event.target.files[0].name
+            console.log('>>>> check log đổi file', event.target.files[0]);
+            if (event.target.files[0].type === "audio/mpeg") {
+                questionClone[index].audioUrl = await readAudioFile(event.target.files[0])
+                questionClone[index].image = ""
+                questionClone[index].imgName = ""
+            }
+            if (event.target.files[0].type === "image/jpeg") {
+                questionClone[index].image = event.target.files[0]
+                questionClone[index].imgName = event.target.files[0].name
+                questionClone[index].audioUrl = ""
+            }
             setQuestions(questionClone)
         }
     }
@@ -121,6 +154,7 @@ const QAUpdate = () => {
                 description: '',
                 image: '',
                 imgName: '',
+                audioUrl: '',
                 QuizAnswers: [
                     {
                         id: uuidv4(),
@@ -249,6 +283,7 @@ const QAUpdate = () => {
 
         let questionClone = _.cloneDeep(questions)
         for (let i = 0; i < questionClone.length; i++) {
+            console.log('>>>>>>>> audio trước khi send to backend: ', questionClone[i].audioUrl);
             if (questionClone[i].image) {
                 questionClone[i].image = await toBase64(questionClone[i].image)
             }
@@ -265,11 +300,7 @@ const QAUpdate = () => {
         }
     }
 
-    const [isPreviewImg, setIsPreviewImg] = useState(false)
-    const [dataImgPreview, setDataImgPreview] = useState({
-        title: '',
-        url: ''
-    })
+
 
 
     return (
@@ -310,14 +341,24 @@ const QAUpdate = () => {
                                         <label htmlFor={`${question.id}`}>
                                             <RiImageAddFill className='icon-add-image ' />
                                         </label>
-                                        <input type='file' hidden
+                                        <input type='file' hidden accept="audio/*,image/*"
                                             id={`${question.id}`}
                                             onChange={(event) => handleChangeFileImg(question.id, event)}
                                         />
-                                        <span>{question.imgName
-                                            ? <MdOutlineImage className='icon-rview1' onClick={() => handlePreviewImg(question.id)} />
-                                            :
-                                            <MdOutlineImageNotSupported className='icon-rview2' />}</span>
+                                        <div>
+                                            {question.image || question.audioUrl ?
+                                                <>
+                                                    {
+                                                        question.image
+                                                            ? <MdOutlineImage className='icon-rview1' onClick={() => handlePreviewImg(question.id)} />
+                                                            :
+                                                            <audio controls src={question.audioUrl} />
+                                                    }
+                                                </>
+                                                : <MdOutlineImageNotSupported className='icon-rview2' />
+                                            }
+
+                                        </div>
                                     </div>
                                     <div className='btn-add'>
                                         <FcAddRow className='add-icon'

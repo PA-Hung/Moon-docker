@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     quiz_id: DataTypes.INTEGER(),
     description: DataTypes.TEXT(),
     image: DataTypes.BLOB('long'),
+    audioUrl: DataTypes.STRING(255),
   }, {
     sequelize,
     modelName: 'QuizQuestions',

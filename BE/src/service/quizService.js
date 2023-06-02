@@ -237,7 +237,7 @@ const postQuizAssginService = async (quizId, userId) => {
 const getQuizQAService = async (quizId) => {
     try {
         let rawData = await db.QuizQuestions.findAll({
-            attributes: ["id", "description", "image"],
+            attributes: ["id", "description", "image", "audioUrl"],
             where: { quiz_id: quizId },
             nest: true,
             include: [{
@@ -248,12 +248,10 @@ const getQuizQAService = async (quizId) => {
 
         let rawDataClone = _.cloneDeep(rawData)
         for (let i = 0; i < rawDataClone.length; i++) {
-            // var base64 = btoa(
-            //     new Uint8Array(rawDataClone[i].image)
-            //         .reduce((data, byte) => data + String.fromCharCode(byte), '')
-            // );
-            const base64 = Buffer.from(rawDataClone[i].image).toString('base64');
-            rawDataClone[i].image = base64
+            if (rawDataClone[i].image) {
+                const base64 = Buffer.from(rawDataClone[i].image).toString('base64');
+                rawDataClone[i].image = base64
+            }
         }
 
         let resData = {

@@ -14,13 +14,15 @@
         width: 50%;
       }
       .group-upload {
+        align-items: center;
+        justify-content: center;
         display: flex;
-        gap: 10px;
+        gap: 5px;
         .icon-rview2 {
           font-size: 30px;
           color: #f65959;
         }
-        .icon-rview1 {
+        .icon-rview {
           font-size: 30px;
           color: #ff0000;
           transition: transform 0.3s ease-in-out;

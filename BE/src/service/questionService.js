@@ -1,12 +1,35 @@
 import db from '../models/index';
 import _ from 'lodash'
+import cloudinary from '../config/configCloudinary'
 
-const postQuestionByAdminService = async (quiz_id, description, image) => {
+const postQuestionByAdminService_Image = async (quiz_id, description, image) => {
     try {
         let data = await db.QuizQuestions.create({
             quiz_id: quiz_id,
             description: description,
             image: image,
+        })
+        return {
+            EM: 'Create question success !',
+            EC: 0,
+            DT: data,
+        }
+    } catch (error) {
+        console.log(">>> check error: ", error)
+        return {
+            EM: 'Error from postQuestionByAdminService',
+            EC: 1,
+            DT: [],
+        }
+    }
+}
+
+const postQuestionByAdminService_Audio = async (quiz_id, description, fileUrl) => {
+    try {
+        let data = await db.QuizQuestions.create({
+            quiz_id: quiz_id,
+            description: description,
+            audioUrl: fileUrl,
         })
         return {
             EM: 'Create question success !',
@@ -38,6 +61,7 @@ const postQuizUpsertQAService = async (quizId, questions) => {
     // --------------------------------------------/ Cập nhật câu hỏi
     if (questions.length === res.length) {
         console.log('cập nhật câu hỏi');
+
         let feLength = 0
         for (let i = 0; i < questions.length; i++) {
             const feQuizAnswers = questions[i].QuizAnswers
@@ -53,9 +77,11 @@ const postQuizUpsertQAService = async (quizId, questions) => {
         if (feLength === beLength) {
             console.log('cập nhật câu hỏi và trả lời .')
             for (const question of questions) {
+                console.log(">>>>>>>>>>>", question.audioUrl);
                 await db.QuizQuestions.update({
                     description: question.description,
                     image: question.image,
+                    audioUrl: question.audioUrl
                 }, {
                     where: { id: question.id }
                 })
@@ -167,6 +193,7 @@ const postQuizUpsertQAService = async (quizId, questions) => {
                 id: question.id,
                 description: question.description,
                 imgFile: question.image,
+                audioUrl: question.audioUrl,
                 QuizAnswers: question.QuizAnswers.map((answer) => {
                     return {
                         id: answer.id,
@@ -183,6 +210,7 @@ const postQuizUpsertQAService = async (quizId, questions) => {
                 id: question.id,
                 description: question.description,
                 imgFile: question.image,
+                audioUrl: question.audioUrl,
                 QuizAnswers: question.QuizAnswers.map((answer) => {
                     return {
                         id: answer.id,
@@ -213,6 +241,7 @@ const postQuizUpsertQAService = async (quizId, questions) => {
             const createdQuestion = await db.QuizQuestions.create({
                 description: questionFe.description,
                 image: questionFe.imgFile,
+                audioUrl: questionFe.audioUrl,
                 quiz_id: quizId
             });
 
@@ -251,7 +280,7 @@ const postQuizUpsertQAService = async (quizId, questions) => {
 
     // ------------------------------------------ / Xóa câu hỏi
     if (questions.length < res.length) {
-        console.log('xoa question');
+        console.log('Xoá câu hỏi ! ');
 
         let questionIdFe = questions.map((item) => {
             return item.id
@@ -266,6 +295,31 @@ const postQuizUpsertQAService = async (quizId, questions) => {
 
         // tìm các id không trùng nhau trong hai mảng allIdsFe và allIdsBe
         const uniqueIds = allIdsBe.filter(id => !allIdsFe.includes(id));
+
+        let deteleData = await db.QuizQuestions.findAll({
+            attributes: ["audioUrl"],
+            where: { id: uniqueIds },
+            raw: true
+        })
+
+        if (deteleData) {
+            console.log('check link audio data', deteleData);
+            for (let i = 0; i < deteleData.length; i++) {
+                if (deteleData[i].audioUrl) {
+                    const AudioUrl = deteleData[i].audioUrl;
+                    const public_id = AudioUrl.split('/').slice(-2).join('/').replace('.mp3', '');
+                    console.log('check link audio  sau khi phân tích file', public_id);
+                    cloudinary.uploader.destroy(public_id, { resource_type: 'video' }, function (error, result) {
+                        if (error) {
+                            console.log('Error:', error.message);
+                        } else {
+                            console.log('Result:', result);
+                        }
+                    });
+                }
+            }
+
+        }
 
         await db.sequelize.transaction(async (t) => {
             await db.QuizQuestions.destroy({
@@ -310,11 +364,11 @@ const postQuizUpsertQAService = async (quizId, questions) => {
         EC: 0,
         DT: [],
     }
-
 }
 
 module.exports = {
-    postQuestionByAdminService,
+    postQuestionByAdminService_Image,
+    postQuestionByAdminService_Audio,
     postQuizUpsertQAService,
 
 }

@@ -22,6 +22,9 @@ module.exports = {
       image: {
         type: Sequelize.BLOB('long')
       },
+      audioUrl: {
+        type: Sequelize.STRING(255)
+      },
 
       createdAt: {
         allowNull: false,

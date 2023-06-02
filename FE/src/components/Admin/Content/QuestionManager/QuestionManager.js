@@ -33,11 +33,28 @@ const QuestionManager = () => {
     const [questions, setQuestions] = useState(initQuestion)
     const [listQuiz, setListQuiz] = useState([])
     const [selectedQuiz, setSelectedQuiz] = useState([])
+    const [audioUrl, setAudioUrl] = useState('')
 
     useEffect(() => {
         fetchQuizByAdmin()
         // eslint-disable-next-line
     }, [])
+
+    const readAudioFile = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                resolve(event.target.result);
+            };
+
+            reader.onerror = (event) => {
+                reject(event.target.error);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
 
     const fetchQuizByAdmin = async () => {
         let res = await getQuizsByAdmin()
@@ -110,13 +127,17 @@ const QuestionManager = () => {
         }
     }
 
-    const handleChangeFileImage = (questionId, event) => {
+    const handleChangeFileImage = async (questionId, event) => {
         let questionClone = _.cloneDeep(questions)
         let indexAnswer = questionClone.findIndex(item => item.id === questionId)
         if (indexAnswer > -1 && event.target && event.target.files && event.target.files[0]) {
             questionClone[indexAnswer].imgFile = event.target.files[0]
             questionClone[indexAnswer].imgName = event.target.files[0].name
             setQuestions(questionClone)
+        }
+        if (questionClone[indexAnswer].imgFile.type === "audio/mpeg") {
+            let mp3 = await readAudioFile(questionClone[indexAnswer].imgFile)
+            setAudioUrl(mp3)
         }
     }
 
@@ -202,6 +223,7 @@ const QuestionManager = () => {
                 +selectedQuiz.value,
                 question.description,
                 question.imgFile)
+            console.log('>>>', question.imgFile);
             // tạo câu trả lời
             for (const answer of question.answers) {
                 await postAnswerQuestionByAdmin(
@@ -210,8 +232,6 @@ const QuestionManager = () => {
                     answer.isCorrect)
             }
         }
-
-
 
         toast.success('Create question and answer success !')
         setQuestions(initQuestion)
@@ -270,26 +290,39 @@ const QuestionManager = () => {
                                             placeholder="Description" />
                                     </div>
                                     <div className='group-upload'>
-                                        <label htmlFor={`${question.id}`}>
-                                            <RiImageAddFill className='icon-add-image ' />
-                                        </label>
-                                        <input type='file' hidden
-                                            id={`${question.id}`}
-                                            onChange={(event) => handleChangeFileImage(question.id, event)}
-                                        />
-                                        <span>{question.imgName
-                                            ? <MdOutlineImage className='icon-rview1' onClick={() => handlePreviewImg(question.id)} />
-                                            :
-                                            <MdOutlineImageNotSupported className='icon-rview2' />}
-                                        </span>
+                                        <div>
+                                            <label htmlFor={`${question.id}`}>
+                                                <RiImageAddFill className='icon-add-image ' />
+                                            </label>
+                                            <input type='file' hidden accept="audio/*,image/*"
+                                                id={`${question.id}`}
+                                                onChange={(event) => handleChangeFileImage(question.id, event)}
+                                            />
+                                        </div>
+                                        <div>
+                                            {question.imgFile
+                                                ?
+                                                <>
+                                                    {question.imgFile.type === "image/jpeg" ?
+                                                        <MdOutlineImage className='icon-rview' onClick={() => handlePreviewImg(question.id)} />
+                                                        :
+                                                        <audio controls src={audioUrl} />
+                                                    }
+                                                </>
+                                                :
+                                                <>
+                                                    <MdOutlineImageNotSupported className='icon-rview2' />
+                                                </>
+                                            }
+                                        </div>
+                                        <div className='btn-add'>
+                                            <FcAddRow className='add-icon'
+                                                onClick={() => handleAddRemoveQuestion('Add', '')} />
+                                            {questions.length > 1 && <FcDeleteRow className='delete-icon'
+                                                onClick={() => handleAddRemoveQuestion('Remove', question.id)} />}
+                                        </div>
                                     </div>
-                                    <div className='btn-add'>
-                                        <FcAddRow className='add-icon'
-                                            onClick={() => handleAddRemoveQuestion('Add', '')} />
-                                        {questions.length > 1 && <FcDeleteRow className='delete-icon'
-                                            onClick={() => handleAddRemoveQuestion('Remove', question.id)} />}
 
-                                    </div>
                                 </div>
 
                                 {question.answers && question.answers.length > 0 && question.answers.map((answer, index) => {
