@@ -22,6 +22,7 @@ const QuestionManager = () => {
             imgFile: '',
             imgName: '',
             audioUrl: '',
+            audioReview: '',
             answers: [
                 {
                     id: uuidv4(),
@@ -64,6 +65,7 @@ const QuestionManager = () => {
                 imgFile: '',
                 imgName: '',
                 audioUrl: '',
+                audioReview: '',
                 answers: [
                     {
                         id: uuidv4(),
@@ -117,14 +119,16 @@ const QuestionManager = () => {
         let index = questionClone.findIndex(item => item.id === questionId);
         if (index > -1 && event.target && event.target.files && event.target.files[0]) {
             if (event.target.files[0].type === "audio/mpeg") {
-                questionClone[index].audioUrl = URL.createObjectURL(event.target.files[0]);
-                questionClone[index].image = "";
+                questionClone[index].audioReview = URL.createObjectURL(event.target.files[0]);
+                questionClone[index].audioUrl = event.target.files[0];
+                questionClone[index].imgFile = "";
                 questionClone[index].imgName = ""
             }
             if (event.target.files[0].type === "image/jpeg") {
-                questionClone[index].image = event.target.files[0];
+                questionClone[index].imgFile = event.target.files[0];
                 questionClone[index].imgName = event.target.files[0].name;
                 questionClone[index].audioUrl = "";
+                questionClone[index].audioReview = ""
             }
             setQuestions(questionClone);
         }
@@ -211,7 +215,8 @@ const QuestionManager = () => {
             const resQuestion = await postQuestionQuizByAdmin(
                 +selectedQuiz.value,
                 question.description,
-                question.imgFile)
+                question.imgFile,
+                question.audioUrl)
             console.log('>>>', question.imgFile);
             // tạo câu trả lời
             for (const answer of question.answers) {
@@ -289,20 +294,19 @@ const QuestionManager = () => {
                                             />
                                         </div>
                                         <div>
-                                            {question.image || question.audioUrl ?
+                                            {question.imgFile || question.audioUrl || question.audioReview ?
                                                 <>
                                                     {
-                                                        question.image
+                                                        question.imgFile
                                                             ? <MdOutlineImage className='icon-rview1' onClick={() => handlePreviewImg(question.id)} />
                                                             :
                                                             <>
-                                                                <audio controls src={question.audioUrl} />
+                                                                {question.audioReview ? <audio controls src={question.audioReview} /> : <audio controls src={question.audioUrl} />}
                                                             </>
                                                     }
                                                 </>
                                                 : <MdOutlineImageNotSupported className='icon-rview2' />
                                             }
-
                                         </div>
                                         <div className='btn-add'>
                                             <FcAddRow className='add-icon'
