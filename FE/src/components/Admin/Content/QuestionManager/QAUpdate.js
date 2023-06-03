@@ -8,7 +8,7 @@ import { RiImageAddFill } from 'react-icons/ri'
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
 import Lightbox from "react-awesome-lightbox";
-import { getQuizsByAdmin, getQuizQAByAdmin, postUpsertQA } from '../../../../services/quizApiService'
+import { getQuizsByAdmin, getQuizQAByAdmin, postUpsertQA, uploadCloudinary } from '../../../../services/quizApiService'
 import { toast } from 'react-toastify';
 
 const QAUpdate = () => {
@@ -19,6 +19,7 @@ const QAUpdate = () => {
             image: '',
             imgName: '',
             audioUrl: '',
+            audioReview: '',
             QuizAnswers: [
                 {
                     id: uuidv4(),
@@ -31,6 +32,7 @@ const QAUpdate = () => {
     const [questions, setQuestions] = useState(initQuestion)
     const [listQuiz, setListQuiz] = useState([])
     const [selectedQuiz, setSelectedQuiz] = useState([])
+
 
     useEffect(() => {
         fetchQuizByAdmin()
@@ -84,8 +86,6 @@ const QAUpdate = () => {
     })
 
     const handlePreviewImg = (questionId) => {
-        console.log('questionId', questionId);
-        console.log('questions', questions);
         let questionClone = _.cloneDeep(questions)
         let index = questionClone.findIndex(item => item.id === questionId)
         if (index > -1) {
@@ -97,40 +97,26 @@ const QAUpdate = () => {
         }
     }
 
-    const readAudioFile = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-
-            reader.onerror = (event) => {
-                reject(event.target.error);
-            };
-
-            reader.readAsDataURL(file);
-        });
-    };
-
     const handleChangeFileImg = async (questionId, event) => {
-        let questionClone = _.cloneDeep(questions)
-        let index = questionClone.findIndex(item => item.id === questionId)
+        let questionClone = _.cloneDeep(questions);
+        let index = questionClone.findIndex(item => item.id === questionId);
         if (index > -1 && event.target && event.target.files && event.target.files[0]) {
-            console.log('>>>> check log đổi file', event.target.files[0]);
             if (event.target.files[0].type === "audio/mpeg") {
-                questionClone[index].audioUrl = await readAudioFile(event.target.files[0])
-                questionClone[index].image = ""
+                questionClone[index].audioReview = URL.createObjectURL(event.target.files[0]);
+                questionClone[index].audioUrl = event.target.files[0];
+                questionClone[index].image = "";
                 questionClone[index].imgName = ""
             }
             if (event.target.files[0].type === "image/jpeg") {
-                questionClone[index].image = event.target.files[0]
-                questionClone[index].imgName = event.target.files[0].name
-                questionClone[index].audioUrl = ""
+                questionClone[index].image = event.target.files[0];
+                questionClone[index].imgName = event.target.files[0].name;
+                questionClone[index].audioUrl = "";
+                questionClone[index].audioReview = ""
             }
-            setQuestions(questionClone)
+            setQuestions(questionClone);
         }
-    }
+    };
+
 
     const fetchQuizByAdmin = async () => {
         let res = await getQuizsByAdmin()
@@ -155,6 +141,7 @@ const QAUpdate = () => {
                 image: '',
                 imgName: '',
                 audioUrl: '',
+                audioReview: '',
                 QuizAnswers: [
                     {
                         id: uuidv4(),
@@ -265,27 +252,21 @@ const QAUpdate = () => {
             return
         }
 
-        // validate select image
-        // let isValidImage = true
-        // let indexImage = 0
-        // for (let i = 0; i < questions.length; i++) {
-        //     if (!questions[i].imgName) {
-        //         isValidImage = false
-        //         indexImage = i
-        //         break
-        //     }
-        // }
-        // if (isValidImage === false) {
-        //     toast.error(`Not empty image question ${indexImage + 1}`)
-        //     return
-        // }
-
-
         let questionClone = _.cloneDeep(questions)
         for (let i = 0; i < questionClone.length; i++) {
-            console.log('>>>>>>>> audio trước khi send to backend: ', questionClone[i].audioUrl);
             if (questionClone[i].image) {
                 questionClone[i].image = await toBase64(questionClone[i].image)
+                questionClone[i].audioUrl = null
+            }
+            if (questionClone[i].audioUrl) {
+                console.log('>>>>>>>> audio trước khi send to backend: ', questionClone[i].audioUrl);
+                if (!isURL(questionClone[i].audioUrl)) {
+                    let resUpload = await uploadCloudinary(questionClone[i].audioUrl)
+                    if (resUpload.EC === 0) {
+                        questionClone[i].audioUrl = resUpload.DT
+                    }
+                }
+                questionClone[i].image = null
             }
         }
 
@@ -301,6 +282,14 @@ const QAUpdate = () => {
     }
 
 
+    const isURL = (value) => {
+        try {
+            new URL(value);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
 
 
     return (
@@ -339,20 +328,23 @@ const QAUpdate = () => {
                                     </div>
                                     <div className='group-upload'>
                                         <label htmlFor={`${question.id}`}>
-                                            <RiImageAddFill className='icon-add-image ' />
+                                            <RiImageAddFill className='icon-add-image' />
                                         </label>
                                         <input type='file' hidden accept="audio/*,image/*"
                                             id={`${question.id}`}
-                                            onChange={(event) => handleChangeFileImg(question.id, event)}
+                                            onChange={(event) => { handleChangeFileImg(question.id, event) }}
                                         />
+
                                         <div>
-                                            {question.image || question.audioUrl ?
+                                            {question.image || question.audioUrl || question.audioReview ?
                                                 <>
                                                     {
                                                         question.image
                                                             ? <MdOutlineImage className='icon-rview1' onClick={() => handlePreviewImg(question.id)} />
                                                             :
-                                                            <audio controls src={question.audioUrl} />
+                                                            <>
+                                                                {question.audioReview ? <audio controls src={question.audioReview} /> : <audio controls src={question.audioUrl} />}
+                                                            </>
                                                     }
                                                 </>
                                                 : <MdOutlineImageNotSupported className='icon-rview2' />
@@ -387,9 +379,7 @@ const QAUpdate = () => {
                                                             handleAnswerQuestion('Input', answer.id, question.id, event.target.value)}
                                                         defaultValue={answer.description}
                                                         className="form-control"
-
                                                         placeholder="Description" />
-
                                                 </div>
                                                 <div className='btn-answer'>
                                                     <FaPlusCircle

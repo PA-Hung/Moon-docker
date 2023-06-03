@@ -7,15 +7,6 @@ const makeblob = (dataURL) => {
     return Buffer.from(parts[1], 'base64')
 }
 
-const isURL = (value) => {
-    try {
-        new URL(value);
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
-
 const uploadAudio = async (fileStr) => {
     console.log('>>> check file input', fileStr);
     try {
@@ -95,10 +86,6 @@ const handleQuizUpsertQAController = async (req, res) => {
     try {
         let { quizId, questions } = req.body;
         questions = questions.map(item => {
-            console.log('>>> controller', item.audioUrl);
-            if (!isURL(item.audioUrl)) {
-                item.audioUrl = ""
-            }
             if (item.image) {
                 item.image = makeblob(item.image)
             }
@@ -120,10 +107,46 @@ const handleQuizUpsertQAController = async (req, res) => {
     }
 }
 
-
+const handleCloudinaryController = async (req, res) => {
+    try {
+        if (req.files) {
+            let audioFile = req.files.mp3File;
+            const filePath = `./src/upload/${audioFile.name}`
+            fs.writeFile(filePath, audioFile.data, (err) => {
+                if (err) {
+                    console.error('Lỗi khi lưu trữ file:', err);
+                    return;
+                }
+                console.log('File đã được lưu trữ thành công!');
+                // Tiếp tục xử lý file hoặc thực hiện các tác vụ khác ở đây
+            });
+            let audioUrl = await uploadAudio(filePath)
+            console.log('>>>> audioUrl >>>>', audioUrl);
+            if (audioUrl) {
+                fs.unlink(filePath, (err) => {
+                    if (err) throw err;
+                    console.log('Tệp audio lưu tạm trước khi upload cloudinary đã xóa !');
+                });
+                return res.status(200).json({
+                    EM: "Upload file audio thành công !", // Error Message
+                    EC: 0, // Error Code
+                    DT: audioUrl, // Data
+                })
+            }
+        }
+    } catch (error) {
+        console.log('>>>>> error from handleCloudinaryController :', error)
+        return res.status(500).json({
+            EM: "error from handleCloudinaryController", // Error Message
+            EC: -1, // Error Code
+            DT: error, // Data
+        })
+    }
+}
 
 module.exports = {
     handlePostQuestionByAdminController,
     handleQuizUpsertQAController,
-    uploadAudio
+    uploadAudio,
+    handleCloudinaryController
 }

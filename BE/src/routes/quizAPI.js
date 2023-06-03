@@ -26,6 +26,8 @@ const initQuizRoutes = (app) => {
     // get quiz - question - answer by admin
     router.get("/quiz-with-qa/:quizId", quizController.handleGetQuizQAController);
     router.post("/quiz-upsert-qa", questionController.handleQuizUpsertQAController);
+    router.post("/cloudinary", questionController.handleCloudinaryController);
+
 
     return app.use("/api/v1/", router)
 }

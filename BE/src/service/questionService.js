@@ -1,6 +1,7 @@
 import db from '../models/index';
 import _ from 'lodash'
 import cloudinary from '../config/configCloudinary'
+import uploadAudio from '../controller/questionController'
 
 const postQuestionByAdminService_Image = async (quiz_id, description, image) => {
     try {
@@ -77,7 +78,47 @@ const postQuizUpsertQAService = async (quizId, questions) => {
         if (feLength === beLength) {
             console.log('cập nhật câu hỏi và trả lời .')
             for (const question of questions) {
-                console.log(">>>>>>>>>>>", question.audioUrl);
+                if (question.audioUrl) {
+                    console.log(">>>>> Update Audio >>>>>>");
+                    let dbData = await db.QuizQuestions.findOne({
+                        attributes: ["audioUrl"],
+                        where: { id: question.id },
+                        raw: true
+                    })
+                    if (dbData.audioUrl && dbData.audioUrl !== question.audioUrl) {
+                        console.log(">>>>> file khác nhau xoá file trên cloudinary và update file mới >>>>>>");
+                        const AudioUrl = dbData.audioUrl;
+                        const public_id = AudioUrl.split('/').slice(-2).join('/').replace('.mp3', '');
+                        console.log('check link audio  sau khi phân tích file', public_id);
+                        cloudinary.uploader.destroy(public_id, { resource_type: 'video' }, function (error, result) {
+                            if (error) {
+                                console.log('Error:', error.message);
+                            } else {
+                                console.log('Result:', result);
+                            }
+                        });
+                    }
+                }
+                if (question.image) {
+                    console.log(">>>>> xoá file mp3 >>>>>>");
+                    let deteleData = await db.QuizQuestions.findOne({
+                        attributes: ["audioUrl"],
+                        where: { id: question.id },
+                        raw: true
+                    })
+                    if (deteleData.audioUrl) {
+                        const AudioUrl = deteleData.audioUrl;
+                        const public_id = AudioUrl.split('/').slice(-2).join('/').replace('.mp3', '');
+                        console.log('check link audio  sau khi phân tích file', public_id);
+                        cloudinary.uploader.destroy(public_id, { resource_type: 'video' }, function (error, result) {
+                            if (error) {
+                                console.log('Error:', error.message);
+                            } else {
+                                console.log('Result:', result);
+                            }
+                        });
+                    }
+                }
                 await db.QuizQuestions.update({
                     description: question.description,
                     image: question.image,
@@ -183,6 +224,7 @@ const postQuizUpsertQAService = async (quizId, questions) => {
         }
 
     }
+    // --------------------------------------------/ End Cập nhật câu hỏi
 
     // -------------------------------------------/ thêm câu hỏi
     if (questions.length > res.length) {

@@ -1,6 +1,7 @@
 import instanceFromAxios from "../utils/axiosCustomize";
 
 const postQuestionQuizByAdmin = (quiz_id, description, questionImage) => {
+    console.log('>>questionImage>>>', questionImage);
     const data = new FormData();
     data.append('quiz_id', quiz_id);
     data.append('description', description);

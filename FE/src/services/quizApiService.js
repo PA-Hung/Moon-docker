@@ -52,6 +52,12 @@ const postUpsertQA = (data) => {
     return instanceFromAxios.post(`api/v1/quiz-upsert-qa`, { ...data })
 }
 
+const uploadCloudinary = (file) => {
+    const data = new FormData();
+    data.append('mp3File', file);
+    return instanceFromAxios.post('api/v1/cloudinary', data)
+}
+
 export {
     getQuizByUser,
     getQuizQuestion,
@@ -62,4 +68,5 @@ export {
     getQuizsByAdminWithPagin,
     getQuizQAByAdmin,
     postUpsertQA,
+    uploadCloudinary
 }

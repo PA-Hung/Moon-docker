@@ -21,6 +21,7 @@ const QuestionManager = () => {
             description: '',
             imgFile: '',
             imgName: '',
+            audioUrl: '',
             answers: [
                 {
                     id: uuidv4(),
@@ -33,28 +34,11 @@ const QuestionManager = () => {
     const [questions, setQuestions] = useState(initQuestion)
     const [listQuiz, setListQuiz] = useState([])
     const [selectedQuiz, setSelectedQuiz] = useState([])
-    const [audioUrl, setAudioUrl] = useState('')
 
     useEffect(() => {
         fetchQuizByAdmin()
         // eslint-disable-next-line
     }, [])
-
-    const readAudioFile = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-
-            reader.onerror = (event) => {
-                reject(event.target.error);
-            };
-
-            reader.readAsDataURL(file);
-        });
-    };
 
     const fetchQuizByAdmin = async () => {
         let res = await getQuizsByAdmin()
@@ -79,6 +63,7 @@ const QuestionManager = () => {
                 description: '',
                 imgFile: '',
                 imgName: '',
+                audioUrl: '',
                 answers: [
                     {
                         id: uuidv4(),
@@ -128,16 +113,20 @@ const QuestionManager = () => {
     }
 
     const handleChangeFileImage = async (questionId, event) => {
-        let questionClone = _.cloneDeep(questions)
-        let indexAnswer = questionClone.findIndex(item => item.id === questionId)
-        if (indexAnswer > -1 && event.target && event.target.files && event.target.files[0]) {
-            questionClone[indexAnswer].imgFile = event.target.files[0]
-            questionClone[indexAnswer].imgName = event.target.files[0].name
-            setQuestions(questionClone)
-        }
-        if (questionClone[indexAnswer].imgFile.type === "audio/mpeg") {
-            let mp3 = await readAudioFile(questionClone[indexAnswer].imgFile)
-            setAudioUrl(mp3)
+        let questionClone = _.cloneDeep(questions);
+        let index = questionClone.findIndex(item => item.id === questionId);
+        if (index > -1 && event.target && event.target.files && event.target.files[0]) {
+            if (event.target.files[0].type === "audio/mpeg") {
+                questionClone[index].audioUrl = URL.createObjectURL(event.target.files[0]);
+                questionClone[index].image = "";
+                questionClone[index].imgName = ""
+            }
+            if (event.target.files[0].type === "image/jpeg") {
+                questionClone[index].image = event.target.files[0];
+                questionClone[index].imgName = event.target.files[0].name;
+                questionClone[index].audioUrl = "";
+            }
+            setQuestions(questionClone);
         }
     }
 
@@ -300,20 +289,20 @@ const QuestionManager = () => {
                                             />
                                         </div>
                                         <div>
-                                            {question.imgFile
-                                                ?
+                                            {question.image || question.audioUrl ?
                                                 <>
-                                                    {question.imgFile.type === "image/jpeg" ?
-                                                        <MdOutlineImage className='icon-rview' onClick={() => handlePreviewImg(question.id)} />
-                                                        :
-                                                        <audio controls src={audioUrl} />
+                                                    {
+                                                        question.image
+                                                            ? <MdOutlineImage className='icon-rview1' onClick={() => handlePreviewImg(question.id)} />
+                                                            :
+                                                            <>
+                                                                <audio controls src={question.audioUrl} />
+                                                            </>
                                                     }
                                                 </>
-                                                :
-                                                <>
-                                                    <MdOutlineImageNotSupported className='icon-rview2' />
-                                                </>
+                                                : <MdOutlineImageNotSupported className='icon-rview2' />
                                             }
+
                                         </div>
                                         <div className='btn-add'>
                                             <FcAddRow className='add-icon'
