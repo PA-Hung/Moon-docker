@@ -16,18 +16,25 @@ const Question = (props) => {
 
     return (
         <>
-            {base64String ?
-                <div className='image-question'>
-                    <img style={{ cursor: 'pointer' }}
-                        src={`data:image/jpeg;base64,${base64String}`}
-                        alt='img-question'
-                        onClick={() => setIsPreviewImg(true)} />
-                    {isPreviewImg === true && <Lightbox
-                        image={`data:image/jpeg;base64,${base64String}`}
-                        title={'Question-image'}
-                        onClose={() => setIsPreviewImg(false)}
-                    />}
-                </div> :
+            {base64String || data.audioUrl ?
+                <>  {base64String ?
+                    <div className='image-question'>
+                        <img style={{ cursor: 'pointer' }}
+                            src={`data:image/jpeg;base64,${base64String}`}
+                            alt='img-question'
+                            onClick={() => setIsPreviewImg(true)} />
+                        {isPreviewImg === true && <Lightbox
+                            image={`data:image/jpeg;base64,${base64String}`}
+                            title={'Question-image'}
+                            onClose={() => setIsPreviewImg(false)}
+                        />}
+                    </div>
+                    :
+                    <audio controls src={data.audioUrl} />
+                }
+
+                </>
+                :
                 <div ></div>
             }
             <div className='question'>Question {currentQuiz + 1} : {data.description}</div>

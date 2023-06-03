@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 const ModalQuizResult = (props) => {
@@ -21,7 +21,11 @@ const ModalQuizResult = (props) => {
                 onOk={ShowResultDetails}
                 onCancel={handleCancel}
                 width={350}
-                okText="OK"
+                footer={[
+                    <Button key="submit" type="primary" onClick={ShowResultDetails}>
+                        Close
+                    </Button>,
+                ]}
             >
                 <div>Total Questions : <b>{dataModalResult.countTotal}</b></div>
                 <div>Total Correct Answers : <b>{dataModalResult.countCorrect}</b></div>

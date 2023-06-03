@@ -40,7 +40,7 @@ const getQuizService = async (userId) => {
 const getQuizQuestionService = async (id) => {
     try {
         let data = await db.QuizQuestions.findAll({
-            attributes: ["id", "quiz_id", "image", "description"],
+            attributes: ["id", "quiz_id", "description", "image", "audioUrl"],
             where: { quiz_id: id },
             include: [
                 {

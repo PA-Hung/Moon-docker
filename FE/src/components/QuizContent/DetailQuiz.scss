@@ -7,7 +7,7 @@
   height: calc(100vh - 150px);
   .left-content {
     border: 2px solid #ccc;
-    width: 70%;
+    width: 80%;
     border-radius: 5px;
     padding: 20px;
     .title {
@@ -61,7 +61,7 @@
   .right-content {
     border: 2px solid #ccc;
     border-radius: 5px;
-    width: 30%;
+    width: 20%;
     padding: 20px;
     .timer {
       border-bottom: 1px dashed;
@@ -87,6 +87,7 @@
         align-items: center;
         cursor: pointer;
         border-radius: 50%;
+        padding-top: 3px;
         &:hover {
           cursor: pointer;
         }

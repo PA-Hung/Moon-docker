@@ -23,7 +23,7 @@ const ModalHistoryByID = (props) => {
                 <form>
                     <div className="history-form-byID">
                         <table className="table table-bordered">
-                            <thead class="table-info"
+                            <thead className="table-info"
                                 style={{ display: "table-header-group", position: "sticky", top: "0" }}
                             >
                                 <tr >
