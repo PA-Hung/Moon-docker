@@ -16,6 +16,7 @@ import QuestionManager from '../Admin/Content/QuestionManager/QuestionManager';
 import AssignQuiz from '../Admin/Content/QuizManager/AssignQuiz';
 import QAUpdate from '../Admin/Content/QuestionManager/QAUpdate';
 import PrivateRoutes from './PrivateRoutes';
+import Register from '../Auth/Register'
 
 const AppRoutes = () => {
     return (
@@ -43,6 +44,7 @@ const AppRoutes = () => {
                     <Route path="qa-update" element={<QAUpdate />} />
                 </Route>
                 <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes >
             <ToastContainer

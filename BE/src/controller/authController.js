@@ -65,8 +65,30 @@ const handleLogoutController = async (req, res) => {
     }
 }
 
+const handleRegisterController = async (req, res) => {
+    let username = req.body.username
+    let password = req.body.password
+    let email = req.body.email
+    try {
+        let data = await authService.registerUserService(username, email, password)
+        return res.status(200).json({
+            EM: data.EM, // Error Message
+            EC: data.EC, // Error Code
+            DT: data.DT, // Data
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: data.EM, // Error Message
+            EC: data.EC, // Error Code
+            DT: data.DT, // Data
+        })
+    }
+}
+
 module.exports = {
     handleLoginController,
     handleRefreshTokenController,
-    handleLogoutController
+    handleLogoutController,
+    handleRegisterController
 }

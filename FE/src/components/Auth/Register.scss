@@ -1,0 +1,260 @@
+.login-container {
+    background-color: #f2f0f5;
+    min-height: 94vh;
+    display: grid;
+    place-items: center;
+    .content-right {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+        box-sizing: border-box;
+
+        .facebook-right {
+            text-align: center;
+            .logo-mobi {
+                height: 50px;
+            }
+        }
+
+        .forgot-pass {
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        .Input-email {
+            height: 50px;
+            border-radius: 6px;
+        }
+        .Input-pass {
+            height: 50px;
+            border-radius: 6px;
+        }
+        .btLogin {
+            height: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            .ImSpinner9 {
+                font-size: 16px;
+                margin-bottom: 3px;
+                color: #00d4ff;
+                margin-right: 10px;
+                animation: spin 1s infinite linear;
+            }
+            @keyframes spin {
+                from {
+                    transform: scale(1) rotate(0deg);
+                }
+                to {
+                    transform: scale(1) rotate(360deg);
+                }
+            }
+        }
+        .login-now {
+            background: none;
+            border: none;
+            color: blue;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btCNAcc {
+            height: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .btn-success {
+            background-color: #42b72a;
+        }
+    }
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding-top: 8%;
+    background: #4b52dd;
+    overflow: hidden;
+}
+.background li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 41s linear infinite;
+}
+
+.background li:nth-child(0) {
+    left: 54%;
+    width: 15px;
+    height: 15px;
+    bottom: -15px;
+    animation-delay: 1s;
+}
+.background li:nth-child(1) {
+    left: 74%;
+    width: 50px;
+    height: 50px;
+    bottom: -50px;
+    animation-delay: 3s;
+}
+.background li:nth-child(2) {
+    left: 80%;
+    width: 89px;
+    height: 89px;
+    bottom: -89px;
+    animation-delay: 3s;
+}
+.background li:nth-child(3) {
+    left: 28%;
+    width: 68px;
+    height: 68px;
+    bottom: -68px;
+    animation-delay: 5s;
+}
+.background li:nth-child(4) {
+    left: 63%;
+    width: 39px;
+    height: 39px;
+    bottom: -39px;
+    animation-delay: 15s;
+}
+.background li:nth-child(5) {
+    left: 27%;
+    width: 87px;
+    height: 87px;
+    bottom: -87px;
+    animation-delay: 21s;
+}
+.background li:nth-child(6) {
+    left: 13%;
+    width: 59px;
+    height: 59px;
+    bottom: -59px;
+    animation-delay: 23s;
+}
+.background li:nth-child(7) {
+    left: 39%;
+    width: 82px;
+    height: 82px;
+    bottom: -82px;
+    animation-delay: 25s;
+}
+.background li:nth-child(8) {
+    left: 83%;
+    width: 47px;
+    height: 47px;
+    bottom: -47px;
+    animation-delay: 28s;
+}
+.background li:nth-child(9) {
+    left: 76%;
+    width: 28px;
+    height: 28px;
+    bottom: -28px;
+    animation-delay: 28s;
+}
+.background li:nth-child(10) {
+    left: 48%;
+    width: 83px;
+    height: 83px;
+    bottom: -83px;
+    animation-delay: 36s;
+}
+.background li:nth-child(11) {
+    left: 20%;
+    width: 25px;
+    height: 25px;
+    bottom: -25px;
+    animation-delay: 16s;
+}
+.background li:nth-child(12) {
+    left: 61%;
+    width: 25px;
+    height: 25px;
+    bottom: -25px;
+    animation-delay: 15s;
+}
+.background li:nth-child(13) {
+    left: 80%;
+    width: 74px;
+    height: 74px;
+    bottom: -74px;
+    animation-delay: 18s;
+}
+.background li:nth-child(14) {
+    left: 33%;
+    width: 62px;
+    height: 62px;
+    bottom: -62px;
+    animation-delay: 46s;
+}
+.background li:nth-child(15) {
+    left: 30%;
+    width: 84px;
+    height: 84px;
+    bottom: -84px;
+    animation-delay: 21s;
+}
+.background li:nth-child(16) {
+    left: 49%;
+    width: 31px;
+    height: 31px;
+    bottom: -31px;
+    animation-delay: 25s;
+}
+.background li:nth-child(17) {
+    left: 86%;
+    width: 28px;
+    height: 28px;
+    bottom: -28px;
+    animation-delay: 8s;
+}
+.background li:nth-child(18) {
+    left: 7%;
+    width: 81px;
+    height: 81px;
+    bottom: -81px;
+    animation-delay: 37s;
+}
+.background li:nth-child(19) {
+    left: 89%;
+    width: 17px;
+    height: 17px;
+    bottom: -17px;
+    animation-delay: 1s;
+}
+.background li:nth-child(20) {
+    left: 53%;
+    width: 60px;
+    height: 60px;
+    bottom: -60px;
+    animation-delay: 28s;
+}
+.background li:nth-child(21) {
+    left: 24%;
+    width: 75px;
+    height: 75px;
+    bottom: -75px;
+    animation-delay: 44s;
+}
+.background li:nth-child(22) {
+    left: 65%;
+    width: 84px;
+    height: 84px;
+    bottom: -84px;
+    animation-delay: 41s;
+}
+.background li:nth-child(23) {
+    left: 6%;
+    width: 34px;
+    height: 34px;
+    bottom: -34px;
+    animation-delay: 54s;
+}

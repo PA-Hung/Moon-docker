@@ -213,8 +213,52 @@ const logoutUserService = async (username, refresh_token) => {
     }
 }
 
+const hashUserPassword = (userPassword) => {
+    let hashPassword = bcrypt.hashSync(userPassword, salt);
+    return hashPassword;
+}
+
+const registerUserService = async (username, email, password) => {
+    try {
+        let hashpass = hashUserPassword(password)
+        let check = await db.Participants.count()
+        if (check === 0) {
+            await db.Participants.create({
+                username: username,
+                email: email,
+                password: hashpass,
+                role: "Admin"
+            })
+            return {
+                EM: 'Register user success !', // Error Message
+                EC: 0, // error code
+                DT: []
+            }
+        } else {
+            await db.Participants.create({
+                username: username,
+                email: email,
+                password: hashpass,
+                role: "User"
+            })
+            return {
+                EM: 'Register user success !', // Error Message
+                EC: 0, // error code
+                DT: []
+            }
+        }
+    } catch (error) {
+        return {
+            EM: 'Error loginRegisterService !', // Error Message
+            EC: -4, // error code
+            DT: []
+        }
+    }
+}
+
 module.exports = {
     loginUserService,
     checkRefreshTokenService,
-    logoutUserService
+    logoutUserService,
+    registerUserService
 }

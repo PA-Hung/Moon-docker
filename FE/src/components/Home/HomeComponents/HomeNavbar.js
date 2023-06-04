@@ -12,15 +12,20 @@ import { getUserHistory } from '../../../services/userApiService';
 import { getUserProfile } from '../../../services/userApiService';
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
+import { FaEdit } from 'react-icons/fa';
+import noAvatar from '../../../assets/no avatar.jpg'
 
 const HomeNavbar = () => {
-
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
     const account = useSelector(state => state.auth.account)
-    const dispatch = useDispatch()
-    let base64String = Buffer.from(account.image).toString('base64');
-    let avatarImg = `data:image/jpeg;base64,${base64String}`
+
+    const convertImage = (image) => {
+        let base64String = Buffer.from(image).toString('base64');
+        let avatarImg = `data:image/jpeg;base64,${base64String}`
+        return avatarImg
+    }
 
     // User History
     const [showModalHistory, setShowModalHistory] = useState(false);
@@ -107,6 +112,10 @@ const HomeNavbar = () => {
         },
     ];
 
+    const handleRegister = () => {
+        navigate('/register')
+    }
+
     return (
         < >
             <nav className="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
@@ -143,8 +152,13 @@ const HomeNavbar = () => {
                     </div>
                     {isAuthenticated === false ?
                         <>
-                            <button className="btn btn-primary rounded-pill px-3 d-none d-lg-block" onClick={() => handleLogin()}>Login<i className="fa fa-arrow-right ms-3"></i></button>
-                            {/* <button className='btn-signup'>Signup</button> */}
+                            <button
+                                className="btn btn-primary rounded-pill px-3 d-none d-lg-block"
+                                onClick={() => handleLogin()}>Login<i className="fa fa-arrow-right ms-3" /></button>
+                            <button style={{ marginLeft: "10px" }}
+                                className="btn btn-primary rounded-pill px-3 d-none d-lg-block"
+                                onClick={() => handleRegister()}
+                            >Register<FaEdit style={{ marginLeft: "15px", marginBottom: "4px", fontSize: "19px" }} /></button>
                         </> :
                         <div className='setting'>
                             <Dropdown
@@ -154,7 +168,9 @@ const HomeNavbar = () => {
                             >
                                 <a href='/' onClick={(e) => e.preventDefault()}>
                                     <Space>
-                                        <img className='avatar-header' src={avatarImg} alt='avatar' style={{ height: "35px", width: "35px" }} />
+                                        <img className='avatar-header'
+                                            src={account.image ? convertImage(account.image) : noAvatar}
+                                            alt='avatar' style={{ height: "35px", width: "35px" }} />
                                         <label style={{ fontSize: "20px", fontWeight: "bold" }}>{account.username}</label>
                                         <DownOutlined />
                                     </Space>

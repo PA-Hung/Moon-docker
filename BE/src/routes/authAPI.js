@@ -8,6 +8,7 @@ const initAuthRoutes = (app) => {
     router.post("/login", authController.handleLoginController);
     router.post("/refresh-token", authController.handleRefreshTokenController);
     router.post("/logout", authController.handleLogoutController);
+    router.post("/register", authController.handleRegisterController);
 
     return app.use("/api/v1/", router)
 }
