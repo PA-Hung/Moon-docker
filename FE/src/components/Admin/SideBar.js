@@ -6,17 +6,22 @@ import './SideBar.scss'
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom'
 import { MdSpaceDashboard, MdQuiz, MdAssignmentInd, MdNightsStay, MdDescription, MdPeopleAlt, MdGrading } from "react-icons/md";
-import { useDispatch } from 'react-redux';
+import {
+    useDispatch,
+    //useSelector
+} from 'react-redux';
 import { reduxActivePage } from '../../redux/action/activePageAction';
 
 const SideBar = (props) => {
     const iconCSS = { fontSize: '30px' }
     const dispatch = useDispatch()
+    //const activePage = useSelector(state => state.activePage.page)
     // eslint-disable-next-line
     const { collapseSidebar, toggleSidebar, collapsed, toggled, broken, rtl } = useProSidebar();
     // useEffect(() => {
     //     console.log('>>>>>>>>> check collapsed ', collapsed)
     // }, [collapsed])
+
 
     return (
         <div className='sidebar-container'>
@@ -31,9 +36,12 @@ const SideBar = (props) => {
                 <hr />
                 <div className='title-menu'>
                     <Menu>
-                        <MenuItem icon={<MdSpaceDashboard style={iconCSS} />}
+                        <MenuItem
+                            active={true}
+                            icon={<MdSpaceDashboard style={iconCSS} />}
                             onClick={() => dispatch(reduxActivePage('DashBoard'))}
-                            component={<Link to='/admin' />}> DashBoard </MenuItem>
+                            component={<Link to='/admin' />}
+                        > DashBoard </MenuItem>
                         <MenuItem icon={<MdPeopleAlt style={iconCSS} />}
                             onClick={() => dispatch(reduxActivePage('Student Manager'))}
                             component={<Link to='user-manager' />}> Student Manager </MenuItem>

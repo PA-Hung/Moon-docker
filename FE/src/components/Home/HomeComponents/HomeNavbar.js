@@ -51,8 +51,9 @@ const HomeNavbar = () => {
             navigate('/')
             toast.success(res.EM)
         }
-        else {
-            toast.error(res.EM)
+        if (res && res.EC === -888) {
+            localStorage.removeItem('auth')
+            navigate('/login')
         }
     }
 

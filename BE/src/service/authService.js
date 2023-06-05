@@ -189,7 +189,7 @@ const logoutUserService = async (username, refresh_token) => {
             }
             return {
                 EM: 'Invalid Refresh_token !', // Error Message
-                EC: -2, // error code
+                EC: -888, // error code
                 DT: {
                     username: username,
                     refresh_token: refresh_token,

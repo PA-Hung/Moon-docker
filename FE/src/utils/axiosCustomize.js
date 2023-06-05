@@ -16,11 +16,13 @@ instance.interceptors.request.use(function (config) {
     const access_token = store?.getState()?.auth?.account?.access_token
     config.headers['Authorization'] = `Bearer ${access_token}`
     //console.log('config.headers', config.headers['Authorization']);
+
     NProgress.start();
     // Do something before request is sent
     return config;
 }, function (error) {
     // Do something with request error
+    console.log(">>>>>>> bắt lỗi ở đây >>>>>>>>>>>");
     return Promise.reject(error);
 });
 
@@ -34,6 +36,11 @@ instance.interceptors.response.use(function (response) {
 }, function (error) {
     NProgress.done();
     if (error.response.data && error.response.data.EC === -999) {
+        localStorage.removeItem('auth')
+        window.location.href = '/login'
+    }
+    if (error.response.data && error.response.data.EC === -777) {
+        localStorage.removeItem('auth')
         window.location.href = '/login'
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger

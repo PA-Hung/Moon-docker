@@ -54,7 +54,7 @@ const checkUserJWT = (req, res, next) => {
             next()
         } else {
             return res.status(401).json({
-                EC: -1,
+                EC: -777,
                 DT: '',
                 EM: 'Access token not verify !'
             })
