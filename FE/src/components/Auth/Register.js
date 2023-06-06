@@ -71,7 +71,7 @@ const Register = () => {
 
     return (
         <div className="login-container">
-            <ul class="background">
+            <ul className="background">
                 <li></li>
                 <li></li>
                 <li></li>

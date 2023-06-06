@@ -18,6 +18,7 @@ import { getUserHistory } from '../../services/userApiService';
 import { getUserProfile } from '../../services/userApiService';
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
+import noAvatar from './../../assets/no avatar.jpg'
 
 const Admin = () => {
     const navigate = useNavigate()
@@ -29,12 +30,16 @@ const Admin = () => {
         // console.log('toggled', toggled)
         // console.log('broken', broken)
         // console.log('rtl', rtl)
+        toggleSidebar()
         collapseSidebar()
     }
     const account = useSelector(state => state.auth.account)
     const activePage = useSelector(state => state.activePage.page)
-    let base64String = Buffer.from(account.image).toString('base64');
-    let avatarImg = `data:image/jpeg;base64,${base64String}`
+    const convertImage = (image) => {
+        let base64String = Buffer.from(image).toString('base64');
+        let avatarImg = `data:image/jpeg;base64,${base64String}`
+        return avatarImg
+    }
 
     // User History
     const [showModalHistory, setShowModalHistory] = useState(false);
@@ -122,10 +127,13 @@ const Admin = () => {
             <div className='admin-main'>
 
                 <div className='top-bar'>
-                    <div className='showhide-icon'>
+                    <div className='showhide-icon d-none d-sm-none d-lg-block'>
+                        <FaBars onClick={() => collapseSidebar()} />
+                    </div>
+                    <div className='showhide-icon d-sm-block d-lg-none'>
                         <FaBars onClick={() => { handleCollapse() }} />
                     </div>
-                    <div className='top-bar-content'>
+                    <div className='top-bar-title'>
                         {activePage.name}
                     </div>
                     <div className='setting'>
@@ -136,7 +144,7 @@ const Admin = () => {
                         >
                             <a href='/' onClick={(e) => e.preventDefault()}>
                                 <Space>
-                                    <img className='avatar-header' src={avatarImg} alt='avatar' style={{ height: "35px", width: "35px" }} />
+                                    <img className='avatar-header' src={account.image ? convertImage(account.image) : noAvatar} alt='avatar' style={{ height: "35px", width: "35px" }} />
                                     <label style={{ fontSize: "20px", fontWeight: "bold" }}>{account.username}</label>
                                     <DownOutlined />
                                 </Space>

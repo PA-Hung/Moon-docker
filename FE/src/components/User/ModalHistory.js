@@ -22,7 +22,7 @@ const ModalHistory = (props) => {
                 <form>
                     <div className="history-form">
                         <table className="table table-bordered">
-                            <thead class="table-info" style={{ display: "table-header-group", position: "sticky", top: "0" }}>
+                            <thead className="table-info" style={{ display: "table-header-group", position: "sticky", top: "0" }}>
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Quiz Name</th>

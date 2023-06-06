@@ -127,7 +127,7 @@ const DetailQuiz = (props) => {
                     </div>
 
                 </div>
-                <div className='right-content'>
+                <div className='right-content d-none d-sm-none d-lg-block'>
                     <CountDown
                         setIsRunning={setIsRunning}
                         isRunning={isRunning}

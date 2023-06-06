@@ -182,7 +182,7 @@ const logoutUserService = async (username, refresh_token) => {
                     }
                 )
                 return {
-                    EM: 'Logout user success !', // Error Message
+                    EM: 'User logout success !', // Error Message
                     EC: 0, // error code
                     DT: []
                 }

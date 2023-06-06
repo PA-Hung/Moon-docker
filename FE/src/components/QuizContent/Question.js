@@ -38,9 +38,6 @@ const Question = (props) => {
                 <div ></div>
             }
             <div className='question'>
-                <div class="star">
-                    <span class="fa fa-star checked">1</span>
-                </div>
                 Question {currentQuiz + 1} : {data.description}</div>
             <div className='answer'>
                 {data.QuizAnswers && data.QuizAnswers.length > 0 && data.QuizAnswers.map((item, index) => {

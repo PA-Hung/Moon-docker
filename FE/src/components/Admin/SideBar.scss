@@ -18,5 +18,8 @@
   .title-menu {
     font-size: 18px;
     font-weight: 450;
+    .active {
+      background-color: #fff5f3;
+    }
   }
 }

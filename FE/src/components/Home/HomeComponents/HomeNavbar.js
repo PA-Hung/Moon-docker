@@ -54,6 +54,7 @@ const HomeNavbar = () => {
         if (res && res.EC === -888) {
             localStorage.removeItem('auth')
             navigate('/login')
+            toast.success('User logout success !')
         }
     }
 
@@ -151,16 +152,17 @@ const HomeNavbar = () => {
                         }
 
                     </div>
+
                     {isAuthenticated === false ?
-                        <>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                             <button
-                                className="btn btn-primary rounded-pill px-3 d-none d-lg-block"
+                                className="btn btn-primary rounded-pill px-3 d-sm-block"
                                 onClick={() => handleLogin()}>Login<i className="fa fa-arrow-right ms-3" /></button>
                             <button style={{ marginLeft: "10px" }}
-                                className="btn btn-primary rounded-pill px-3 d-none d-lg-block"
+                                className="btn btn-primary rounded-pill px-3 d-sm-block"
                                 onClick={() => handleRegister()}
                             >Register<FaEdit style={{ marginLeft: "15px", marginBottom: "4px", fontSize: "19px" }} /></button>
-                        </> :
+                        </div> :
                         <div className='setting'>
                             <Dropdown
                                 menu={{

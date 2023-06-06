@@ -1,4 +1,5 @@
 .login-container {
+  overflow: auto !important;
   background-color: #f2f0f5;
   min-height: 94vh;
   display: grid;
@@ -102,6 +103,7 @@
   top: 0;
   left: 0;
   margin: 0;
+  padding-right: 30px;
   padding-top: 11%;
   background: #4b52dd;
   overflow: hidden;
