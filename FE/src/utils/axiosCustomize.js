@@ -1,11 +1,14 @@
 import axios from "axios";
 import NProgress from "nprogress";
 import { store } from '../redux/store'
+import { useDispatch } from 'react-redux';
+import { reduxLogout } from '../redux/action/authAction';
 
 NProgress.configure({
     showSpinner: false,
     trickleSpeed: 100
 });
+
 
 const instance = axios.create({ baseURL: process.env.REACT_APP_BACKEND_URL });
 
@@ -34,13 +37,14 @@ instance.interceptors.response.use(function (response) {
     // lọc dữ liệu trả về chỉ có data ko có gì khác
 }, function (error) {
     NProgress.done();
+    const dispatch = useDispatch()
     if (error.response.data && error.response.data.EC === -999) {
-        localStorage.removeItem('auth')
-        window.location.href = '/login'
+        dispatch(reduxLogout())
+        window.location.href = '/'
     }
     if (error.response.data && error.response.data.EC === -777) {
-        localStorage.removeItem('auth')
-        window.location.href = '/login'
+        dispatch(reduxLogout())
+        window.location.href = '/'
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error

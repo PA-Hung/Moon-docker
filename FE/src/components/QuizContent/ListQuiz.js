@@ -27,7 +27,6 @@ const ListQuiz = () => {
                     const base64String = Buffer.from(quiz.image).toString('base64');
                     return (
                         <div className="card"
-                            style={{ width: '18rem' }}
                             key={`quiz-key-${index}`}>
                             <img className="card-img-top"
                                 width={300}

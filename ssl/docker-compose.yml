@@ -1,0 +1,39 @@
+services:
+  nginx:
+    container_name: fe
+    image: nginx:1.23
+    ports:
+      - 80:80
+    volumes:
+      - ../FE/build:/usr/share/nginx/html/
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+
+  mysqldb:
+    image: mariadb:10.4
+    restart: unless-stopped
+    container_name: db
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./initDB.sql:/data/application/init.sql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=R^+XIjeTYR$9BHE
+      - MYSQL_DATABASE=MoonDemo
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+
+  backend:
+    container_name: be
+    build:
+      context: ../BE
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - DB_HOST=mysqldb
+      - DB_PORT=3306
+      - DB_PASSWORD=R^+XIjeTYR$9BHE
+      - DB_NAME=MoonDemo
+    expose:
+      - 8000

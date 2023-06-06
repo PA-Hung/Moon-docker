@@ -52,8 +52,8 @@ const HomeNavbar = () => {
             toast.success(res.EM)
         }
         if (res && res.EC === -888) {
-            localStorage.removeItem('auth')
-            navigate('/login')
+            dispatch(reduxLogout())
+            navigate('/')
             toast.success('User logout success !')
         }
     }

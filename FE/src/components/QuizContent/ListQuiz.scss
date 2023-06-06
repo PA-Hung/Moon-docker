@@ -7,8 +7,10 @@
   @media (max-width: 768px) {
     margin-top: 30px;
     margin-bottom: 30px;
+    justify-content: center;
   }
   .card {
+    width: 18rem;
     .card-body {
       display: flex;
       flex-direction: column;
