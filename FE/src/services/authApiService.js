@@ -12,7 +12,10 @@ const postRegister = (username, email, password) => {
 }
 
 const postLogout = (username, refresh_token) => {
-    return instanceFromAxios.post('api/v1/logout', { username, refresh_token })
+    return instanceFromAxios.post('api/v1/logout', {
+        username,
+        // refresh_token
+    })
 }
 
 export {

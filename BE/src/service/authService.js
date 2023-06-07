@@ -169,41 +169,58 @@ const logoutUserService = async (username, refresh_token) => {
         let userData = await db.Participants.findOne({
             where: { username: username }
         })
-        if (userData) {
-            let isCorrectRT = checkRefreshToken(refresh_token, userData.refresh_token)
-            if (isCorrectRT === true) {
-                await db.Participants.update(
-                    {
-                        refresh_token: null,
-                        refresh_expired: null
-                    },
-                    {
-                        where: { username: username }
-                    }
-                )
-                return {
-                    EM: 'User logout success !', // Error Message
-                    EC: 0, // error code
-                    DT: []
-                }
-            }
-            return {
-                EM: 'Invalid Refresh_token !', // Error Message
-                EC: -888, // error code
-                DT: {
-                    username: username,
-                    refresh_token: refresh_token,
-                },
-            }
-        }
-        return {
-            EM: 'Invalid username !', // Error Message
-            EC: -1, // error code
-            DT: {
-                username: username,
-                refresh_token: refresh_token,
+
+        await db.Participants.update(
+            {
+                refresh_token: null,
+                refresh_expired: null
             },
+            {
+                where: { username: username }
+            }
+        )
+        return {
+            EM: 'User logout success !', // Error Message
+            EC: 0, // error code
+            DT: []
         }
+
+        // if (userData) {
+        //     let isCorrectRT = checkRefreshToken(refresh_token, userData.refresh_token)
+        //     if (isCorrectRT === true) {
+        //         await db.Participants.update(
+        //             {
+        //                 refresh_token: null,
+        //                 refresh_expired: null
+        //             },
+        //             {
+        //                 where: { username: username }
+        //             }
+        //         )
+        //         return {
+        //             EM: 'User logout success !', // Error Message
+        //             EC: 0, // error code
+        //             DT: []
+        //         }
+        //     }
+        //     return {
+        //         EM: 'Invalid Refresh_token !', // Error Message
+        //         EC: -888, // error code
+        //         DT: {
+        //             username: username,
+        //             refresh_token: refresh_token,
+        //         },
+        //     }
+        // }
+        // return {
+        //     EM: 'Invalid username !', // Error Message
+        //     EC: -1, // error code
+        //     DT: {
+        //         username: username,
+        //         refresh_token: refresh_token,
+        //     },
+        // }
+
     } catch (error) {
         return {
             EM: 'Error logoutUserService !', // Error Message

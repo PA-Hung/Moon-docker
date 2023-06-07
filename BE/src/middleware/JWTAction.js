@@ -22,6 +22,7 @@ const createRefresh_token = () => {
     return refreshToken
 }
 
+
 const verifyToken = (token) => {
     let key = process.env.JWT_SECRET
     let decoded = null
@@ -33,7 +34,7 @@ const verifyToken = (token) => {
     return decoded
 }
 
-const extractToken = (req) => {
+const extractAccessToken = (req) => {
     //console.log('headers', req.headers.authorization.split(' ')[1]);
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         return req.headers.authorization.split(' ')[1];
@@ -43,7 +44,7 @@ const extractToken = (req) => {
 
 const checkUserJWT = (req, res, next) => {
     if (nonSercurePaths.includes(req.path)) { return next() }
-    let tokenFromHeader = extractToken(req)
+    let tokenFromHeader = extractAccessToken(req)
     if (tokenFromHeader) {
         let token = tokenFromHeader
         //console.log('tokenFromHeader', token);
@@ -56,7 +57,7 @@ const checkUserJWT = (req, res, next) => {
             return res.status(401).json({
                 EC: -777,
                 DT: '',
-                EM: 'Access token not verify !'
+                EM: 'Access token empty !'
             })
         }
     } else {

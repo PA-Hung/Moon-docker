@@ -6,19 +6,19 @@
   padding-top: 10px;
   height: calc(100vh - 150px);
   @media (max-width: 992px) {
-    //display: flex;
-    //gap: 20px;
+    overflow: auto;
     padding-left: 0px;
     padding-right: 0px;
     padding-top: 10px;
-    height: 100vh;
+    padding-bottom: 150px;
+    height: calc(100vh - 50px);
     width: 100vw;
   }
   .left-content {
     border: 2px solid #ccc;
     width: 80%;
     border-radius: 5px;
-    padding: 20px;
+    padding: 20px; //trên/dưới và trái/phải
     height: calc(100vh - 160px);
     overflow: auto;
     @media (max-width: 992px) {

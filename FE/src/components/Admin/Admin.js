@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import SideBar from './SideBar'
 import { useProSidebar } from 'react-pro-sidebar';
 import './Admin.scss'
@@ -25,14 +25,7 @@ const Admin = () => {
     const dispatch = useDispatch()
     // eslint-disable-next-line
     const { collapseSidebar, toggleSidebar, collapsed, toggled, broken, rtl } = useProSidebar();
-    const handleCollapse = () => {
-        // console.log('collapsed', collapsed)
-        // console.log('toggled', toggled)
-        // console.log('broken', broken)
-        // console.log('rtl', rtl)
-        toggleSidebar()
-        collapseSidebar()
-    }
+
     const account = useSelector(state => state.auth.account)
     const activePage = useSelector(state => state.activePage.page)
     const convertImage = (image) => {
@@ -89,14 +82,16 @@ const Admin = () => {
     }
 
     const handleLogout = async () => {
-        let res = await postLogout(account.username, account.refresh_token)
+        let res = await postLogout(
+            account.username,
+            // account.refresh_token
+        )
         if (res && res.EC === 0) {
             dispatch(reduxLogout())
             navigate('/')
             toast.success(res.EM)
-        } else {
-            toast.error(res.EM)
         }
+
     }
 
     const items = [
@@ -131,7 +126,7 @@ const Admin = () => {
                         <FaBars onClick={() => collapseSidebar()} />
                     </div>
                     <div className='showhide-icon d-sm-block d-lg-none'>
-                        <FaBars onClick={() => { handleCollapse() }} />
+                        <FaBars onClick={() => toggleSidebar()} />
                     </div>
                     <div className='top-bar-title'>
                         {activePage.name}

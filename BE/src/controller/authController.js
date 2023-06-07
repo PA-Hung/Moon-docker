@@ -46,9 +46,12 @@ const handleRefreshTokenController = async (req, res) => {
 
 const handleLogoutController = async (req, res) => {
     let username = req.body.username
-    let refresh_token = req.body.refresh_token
+    //let refresh_token = req.body.refresh_token
     try {
-        let data = await authService.logoutUserService(username, refresh_token)
+        let data = await authService.logoutUserService(
+            username,
+            //refresh_token
+        )
         return res.status(200).json({
             EM: data.EM, // Error Message
             EC: data.EC, // Error Code

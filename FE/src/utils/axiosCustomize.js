@@ -1,8 +1,6 @@
 import axios from "axios";
 import NProgress from "nprogress";
 import { store } from '../redux/store'
-import { useDispatch } from 'react-redux';
-import { reduxLogout } from '../redux/action/authAction';
 
 NProgress.configure({
     showSpinner: false,
@@ -11,7 +9,7 @@ NProgress.configure({
 
 
 const instance = axios.create({ baseURL: process.env.REACT_APP_BACKEND_URL });
-
+instance.defaults.withCredentials = true
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     //console.log('check store', store.getState());
@@ -24,7 +22,6 @@ instance.interceptors.request.use(function (config) {
     return config;
 }, function (error) {
     // Do something with request error
-    console.log(">>>>>>> bắt lỗi ở đây >>>>>>>>>>>");
     return Promise.reject(error);
 });
 
@@ -37,15 +34,6 @@ instance.interceptors.response.use(function (response) {
     // lọc dữ liệu trả về chỉ có data ko có gì khác
 }, function (error) {
     NProgress.done();
-    const dispatch = useDispatch()
-    if (error.response.data && error.response.data.EC === -999) {
-        dispatch(reduxLogout())
-        window.location.href = '/'
-    }
-    if (error.response.data && error.response.data.EC === -777) {
-        dispatch(reduxLogout())
-        window.location.href = '/'
-    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     console.log('error', error.response)

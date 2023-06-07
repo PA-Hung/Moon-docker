@@ -45,16 +45,14 @@ const HomeNavbar = () => {
     }
 
     const handleLogout = async () => {
-        let res = await postLogout(account.username, account.refresh_token)
+        let res = await postLogout(
+            account.username,
+            //account.refresh_token
+        )
         if (res && res.EC === 0) {
             dispatch(reduxLogout())
             navigate('/')
             toast.success(res.EM)
-        }
-        if (res && res.EC === -888) {
-            dispatch(reduxLogout())
-            navigate('/')
-            toast.success('User logout success !')
         }
     }
 

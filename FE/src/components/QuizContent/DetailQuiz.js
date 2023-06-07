@@ -10,6 +10,7 @@ import { postSubmitQuiz } from '../../services/userApiService'
 import { toast } from 'react-toastify'
 import ModalQuizResult from './ModalQuizResult'
 import HomeNavbar from '../Home/HomeComponents/HomeNavbar'
+import { BiChevronLeftCircle, BiChevronRightCircle, BiDetail } from "react-icons/bi";
 
 const DetailQuiz = (props) => {
     const params = useParams()
@@ -121,9 +122,15 @@ const DetailQuiz = (props) => {
                         />
                     </div>
                     <div className='question-footer'>
-                        <button className='btn btn-danger' onClick={() => handlePrev()}>Prev</button>
-                        <button className='btn btn-primary' onClick={() => handleNext()}>Next</button>
-                        <button className='btn btn-warning' onClick={() => handleFinish()}>Finish</button>
+                        <button className='btn btn-primary' onClick={() => handlePrev()}>
+                            <BiChevronLeftCircle style={{ fontSize: "24px" }} /> Prev
+                        </button>
+                        <button className='btn btn-primary' onClick={() => handleNext()}>
+                            Next <BiChevronRightCircle style={{ fontSize: "24px" }} />
+                        </button>
+                        <button className='btn btn-danger' onClick={() => handleFinish()}>
+                            Finish <BiDetail style={{ fontSize: "24px" }} />
+                        </button>
                     </div>
 
                 </div>
