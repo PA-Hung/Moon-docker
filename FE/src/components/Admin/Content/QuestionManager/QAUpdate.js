@@ -10,6 +10,7 @@ import _ from 'lodash'
 import Lightbox from "react-awesome-lightbox";
 import { getQuizsByAdmin, getQuizQAByAdmin, postUpsertQA, uploadCloudinary } from '../../../../services/quizApiService'
 import { toast } from 'react-toastify';
+import { SyncOutlined } from '@ant-design/icons';
 
 const QAUpdate = () => {
     const initQuestion = [
@@ -29,6 +30,7 @@ const QAUpdate = () => {
             ]
         }
     ]
+    const [isLoading, setIsLoading] = useState(false)
     const [questions, setQuestions] = useState(initQuestion)
     const [listQuiz, setListQuiz] = useState([])
     const [selectedQuiz, setSelectedQuiz] = useState([])
@@ -212,6 +214,7 @@ const QAUpdate = () => {
     }
 
     const handleSubmitQuestion = async () => {
+        setIsLoading(true)
         // validate select quiz
         if (_.isEmpty(selectedQuiz)) {
             toast.error('Please choose a Quiz !')
@@ -278,6 +281,7 @@ const QAUpdate = () => {
         if (res && res.EC === 0) {
             toast.success(res.EM)
             fetchQuizWithQA()
+            setIsLoading(false)
         }
     }
 
@@ -402,8 +406,12 @@ const QAUpdate = () => {
                 {questions && questions.length > 0 &&
                     <div>
                         <button
+                            disabled={isLoading}
                             onClick={() => handleSubmitQuestion()}
-                            className='btn btn-primary'>Save question</button>
+                            className='btn btn-primary'>
+                            {isLoading ? <SyncOutlined spin style={{ fontSize: "24px" }} /> :
+                                <label style={{ fontSize: "17px" }}>Save Question</label>}
+                        </button>
                     </div>
                 }
             </div>

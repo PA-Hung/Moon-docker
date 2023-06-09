@@ -12,9 +12,10 @@ import { postQuestionQuizByAdmin, postAnswerQuestionByAdmin }
     from '../../../../services/questionApiSerices'
 import { toast } from 'react-toastify';
 import { MdOutlineImageNotSupported, MdOutlineImage } from 'react-icons/md'
-
+import { SyncOutlined } from '@ant-design/icons';
 
 const QuestionManager = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const initQuestion = [
         {
             id: uuidv4(),
@@ -155,6 +156,7 @@ const QuestionManager = () => {
     }
 
     const handleSubmitQuestion = async () => {
+        setIsLoading(true)
         // validate select quiz
         if (_.isEmpty(selectedQuiz)) {
             toast.error('Please choose a Quiz !')
@@ -226,7 +228,7 @@ const QuestionManager = () => {
                     answer.isCorrect)
             }
         }
-
+        setIsLoading(false)
         toast.success('Create question and answer success !')
         setQuestions(initQuestion)
     }
@@ -362,7 +364,11 @@ const QuestionManager = () => {
                     <div>
                         <button
                             onClick={() => handleSubmitQuestion()}
-                            className='btn btn-primary'>Save question</button>
+                            className='btn btn-primary'>
+                            {isLoading ? < SyncOutlined spin style={{ fontSize: "24px" }} /> :
+                                <label style={{ fontSize: "17px" }}>Save Question</label>}
+
+                        </button>
                     </div>
                 }
             </div>
